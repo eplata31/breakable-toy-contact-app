@@ -12,7 +12,7 @@ app.use(koaJson())
 
 const router = new Router()
 
-router.get('/allContacts', contactCtrl.getAllContacts)
+router.get('/contact', contactCtrl.getAllContacts)
 router.get('/contact/:contactId', contactCtrl.getContact)
 router.post('/contact', contactCtrl.createContact)
 router.put('/contact/:contactId', contactCtrl.updateContact)
