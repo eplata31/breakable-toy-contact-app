@@ -1,4 +1,5 @@
 const moongose = require('mongoose')
+const  mongoosePaginate = require('mongoose-paginate-v2')
 
 const validateName = function (value) {
     var regex = /^[a-z]+$/i
@@ -17,23 +18,20 @@ const contactSchema = moongose.Schema({
         lowercase: true,
         unique: false,
         required: 'Name is required',
-        validate: [validateName, 'Please fill a Name'],
-        match: [/^[a-z]+$/i, 'Please fill a valid Name']
+        validate: [validateName, 'Please fill a Name']
     },
     lastname: {
         type: String,
         trim: true,
         lowercase: true,
-        required: 'last Name is required',
-        validate: [validateName, 'Please fill a valid last name'],
-        match: [/^[a-z]+$/i, 'Please fill a valid LastName']
+        required: 'Last name is required',
+        validate: [validateName, 'Please fill a Last name']
     },
     company: {
         type: String,
         trim: true,
         lowercase: true,
-        validate: [validateName, 'Please fill a valid company name'],
-        match: [/^[a-z ,.'-]+$/i, 'Please fill a valid Name company']
+        match: [/^[a-z ,.'-]+$/i, 'Invalid company name']
     },
     phone: {
         type: Number,
@@ -45,9 +43,14 @@ const contactSchema = moongose.Schema({
         lowercase: true,
         unique: true,
         required: 'Email address is required',
-        validate: [validateEmail, 'Please fill a valid email address'],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+        validate: [validateEmail, 'Invalid email address']
     }
 })
+
+mongoosePaginate.paginate.options = { 
+    page: 1,
+    limit: 10
+};
+contactSchema.plugin(mongoosePaginate)
 
 module.exports = moongose.model('contactModel', contactSchema)

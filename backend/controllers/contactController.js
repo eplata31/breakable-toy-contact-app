@@ -1,11 +1,14 @@
 const Contact = require('../models/contact')
 
-async function getAllContacts(ctx){
+async function getAllContacts(ctx, next){
     try {
-        const contacts = await Contact.find({})
+        const page = ctx.query.page
+        const contacts = await Contact.paginate({}, {page})
         ctx.body = contacts
+        return next()
     } catch (error) {
         console.log('Error getting all contacts: ', error)
+        return next()
     }
 }
 
