@@ -1,0 +1,32 @@
+{
+  "name": "breakable-toy-contact-app",
+  "version": "1.0.0",
+  "description": "Contact app experiment made with mongoDB, koa and react",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eplata31/breakable-toy-contact-app.git"
+  },
+  "author": "Enrique Plata",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/eplata31/breakable-toy-contact-app/issues"
+  },
+  "homepage": "https://github.com/eplata31/breakable-toy-contact-app#readme",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-body": "^4.1.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-json": "^2.0.2",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.4.19",
+    "validator": "^10.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
