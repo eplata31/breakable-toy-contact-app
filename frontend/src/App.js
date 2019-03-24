@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Contact from './components/Contact';
-import Contactform from './components/Contactform'
+//import Contactform from './components/Contactform';
 
 class App extends Component {
   render() {
@@ -13,7 +13,6 @@ class App extends Component {
         </header>
         <Contact />
         <hr></hr>
-        <Contactform />
       </div>
     );
   }
