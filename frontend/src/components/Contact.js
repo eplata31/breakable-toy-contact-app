@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Pagination } from 'antd'
-import 'antd/lib/pagination/style/css'
+import { Table } from 'antd';
+import 'antd/lib/table/style/css'
 import Contactform from './Contactform'
 
 class Contact extends Component {
@@ -9,9 +9,16 @@ class Contact extends Component {
     this.state = {
       page: 1,
       pages: null,
-      contacts: [],
       totalDocs: null,
-      selectedContact: {}
+      selectedContact: {},
+      contacts: [],
+      columns: [
+        {title: 'Name', key: 'name', dataIndex: 'name'},
+        {title: 'Last name', key: 'lastname', dataIndex: 'lastname'},
+        {title: 'Email', key: 'email', dataIndex: 'email'},
+        {title: 'Phone', key: 'phone', dataIndex: 'phone'},
+        {title: 'Company', key: 'company', dataIndex: 'company'}
+      ]
     }
   }
 
@@ -44,17 +51,11 @@ class Contact extends Component {
   }
 
   render() {
-    const contactsItems = this.state.contacts.map(contact => (
-      <div key={contact._id} onClick={this.onContactClick.bind(this, contact)}>
-        <p>{contact.name} {contact.lastname}</p>
-      </div>
-    ))
+    const contactsItems = this.state.contacts.map((contact,index) => { return Object.assign({}, contact, {key: index})})
     return (
       <div>
-        <h1>Contacts</h1>
-        {contactsItems}
-        <Pagination defaultCurrent={1} current={this.state.page} total={this.state.totalDocs} onChange={this.onPagerChange.bind(this)} />
-        <Contactform contact={this.state.selectedContact} onFormFieldChange={this.onFormFieldChange.bind(this)} />
+      <Table columns={this.state.columns} dataSource={contactsItems} pagination={{current: this.state.page, total: this.state.totalDocs, onChange: this.onPagerChange.bind(this)}} />
+      <Contactform contact={this.state.selectedContact} onFormFieldChange={this.onFormFieldChange.bind(this)} />
       </div>
     )
   }

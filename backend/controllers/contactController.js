@@ -24,13 +24,19 @@ async function getContact(ctx){
 }
 
 async function createContact(ctx){
+    const newContact = ctx.request.body
     try {
-        const newContact = ctx.request.body
         let contact = new Contact(newContact)
         const savedContact = await contact.save()
         console.log('Contact saved!')
+        ctx.status = 200
         ctx.body = savedContact
     } catch (error) {
+        ctx.body = {
+            error: 'Error, not valid contact',
+            newContact
+        }
+        ctx.status = error.status || 400
         console.log('Error saving contact: ', error)
     }
 }

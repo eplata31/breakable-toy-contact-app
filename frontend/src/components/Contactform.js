@@ -31,8 +31,8 @@ class Contactform extends Component {
             email: this.state.email
         }
 
-        fetch(`http://localhost:8080/contact${this.state.contact._id ? '/' + this.state.contact._id : ''}`, {
-            method: this.state.contact._id ? 'PUT' : 'POST',
+        fetch(`http://localhost:8080/contact`, {
+            method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
@@ -53,11 +53,15 @@ class Contactform extends Component {
             this.setState({ contact: nextProps.contact })
     }
 
+    componentDidUpdate(props){
+        console.log('props',props)
+    }
+
     render() {
         return (
             <div>
-                <h1>Add Contact</h1>
                 <hr></hr>
+                <h1>Add Contact</h1>
                 <form onSubmit={this.onSubmmit}>
                     <div>
                         <label>New contact name</label>
