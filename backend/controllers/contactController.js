@@ -14,9 +14,8 @@ async function getAllContacts(ctx, next){
 
 async function getContact(ctx){
     try {
-        const name = ctx.params.contactId
-        var filter = new RegExp(name, "i")
-        const contact = await  Contact.find({ $or:[{'name':filter}, {'lastname':filter} ]}, 'name lastname')
+        const id = ctx.params.contactId
+        const contact = await  Contact.findById(id)
         ctx.body = contact
     } catch (error) {
         console.log('Error finding contact: ', error)

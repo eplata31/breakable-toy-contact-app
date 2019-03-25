@@ -1,28 +1,54 @@
 import React, { Component } from 'react'
+import Form from './Form'
 
-class Contactform extends Component {
+class EditForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            id: '',
             name: '',
             lastname: '',
             email: '',
-            phone:'',
-            company:''
+            phone: '',
+            company: '',
         }
 
         this.onChange = this.onChange.bind(this)
         this.onSubmmit = this.onSubmmit.bind(this)
     }
 
+    componentDidUpdate(previousProps) {
+        if (this.props.contact !== previousProps.contact) {
+            this.setState({ 
+                id: this.props.contact._id,
+                name: this.props.contact.name,
+                lastname: this.props.contact.lastname,
+                email: this.props.contact.email,
+                phone: this.props.contact.phone,
+                company: this.props.contact.company
+             })
+        }
+    }
+
+    componentWillMount(){
+        this.setState({ 
+            id: this.props.contact._id,
+            name: this.props.contact.name,
+            lastname: this.props.contact.lastname,
+            email: this.props.contact.email,
+            phone: this.props.contact.phone,
+            company: this.props.contact.company
+         })
+    }
+
     onChange(event) {
         this.setState({ [event.target.name]: event.target.value })
     }
-
+    
     onSubmmit(event) {
         event.preventDefault()
 
-        const postData = {
+        const putData = {
             name: this.state.name,
             lastname: this.state.lastname,
             company: this.state.company,
@@ -30,28 +56,27 @@ class Contactform extends Component {
             email: this.state.email
         }
 
-        fetch(`http://localhost:8080/contact`, {
-            method: 'POST',
+        fetch(`http://localhost:8080/contact/${this.state.id}`, {
+            method: 'PUT',
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify(postData)
+            body: JSON.stringify(putData)
         })
             .then(res => res.json())
             .then(data => {
                 console.log(data)
                 this.props.reRender()
             })
-            .catch(error => {
-                console.log(error)
-            })
     }
 
-    render() {
-        return (
-            <div>
-                <hr></hr>
-                <h1>Add Contact</h1>
+  render() {
+      const {name, lastname, company, email, phone} = this.state
+      const con = {name, lastname, company, email, phone}
+    return (
+    <div>
+        <hr></hr>
+                <h1>Edit Contact</h1>
                 <form onSubmit={this.onSubmmit}>
                     <div>
                         <label>New contact name</label>
@@ -77,9 +102,10 @@ class Contactform extends Component {
                         <button type="submmit">Save</button>
                     </div>
                 </form>
-            </div>
-        )
-    }
+                <Form onSubmit={this.onSubmmit} onChange={this.onChange.bind(this)} {...con} />
+      </div>
+    )
+  }
 }
 
-export default Contactform
+export default EditForm

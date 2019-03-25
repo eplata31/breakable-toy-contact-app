@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Contact from './components/Contact';
-//import Contactform from './components/Contactform';
 
 class App extends Component {
   render() {
