@@ -70,8 +70,12 @@ class Contact extends Component {
     this.fetchContacts(page)
   }
 
-  showForm() {
+  showAddForm() {
     this.setState({ showContactForm: !this.state.showContactForm, showEditForm: false })
+  }
+
+  cancelForms() {
+    this.setState({ showContactForm: false, showEditForm: false })
   }
 
   onContactDelete(contact) {
@@ -90,7 +94,6 @@ class Contact extends Component {
     } else if(res.status === 200){
         notification.success({
             message: 'Contact deleted',
-            description: res.statusText
           })
     }
     })
@@ -111,10 +114,10 @@ class Contact extends Component {
           current: this.state.page,
           total: this.state.totalDocs, onChange: this.onPagerChange.bind(this)
         }} />
-        <Button type="primary" onClick={this.showForm.bind(this)}>Add contact</Button>
-        {this.state.showContactForm && <Button ghost type="danger" onClick={this.showForm.bind(this)}>Cancel</Button>}
-        {this.state.showEditForm && <EditForm contact={this.state.selectedContact} reRender={this.fetchContacts.bind(this)} />}
+        <Button type="primary" onClick={this.showAddForm.bind(this)}>Add contact</Button>
+        {(this.state.showContactForm || this.state.showEditForm) && <Button ghost type="danger" onClick={this.cancelForms.bind(this)}>Cancel</Button>}
         {this.state.showContactForm && <Contactform reRender={this.fetchContacts.bind(this)} />}
+        {this.state.showEditForm && <EditForm contact={this.state.selectedContact} reRender={this.fetchContacts.bind(this)} />}
       </div>
     )
   }

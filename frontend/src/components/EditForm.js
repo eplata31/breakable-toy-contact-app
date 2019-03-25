@@ -71,8 +71,7 @@ class EditForm extends Component {
                     .then(res =>{
                         if (res.status === 200){
                             notification.success({
-                                message: 'Contact created',
-                                description:res.statusText
+                                message: 'Contact updated',
                             })
                         } else if(res.status === 400){
                             notification.error({
@@ -130,8 +129,8 @@ class EditForm extends Component {
         
         return (
             <div id="divForm">
-            <hr></hr>
-            <h1>Add Contact</h1>
+            <br></br>
+            <h1>Edit Contact</h1>
                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                     <Form.Item label={(<span>Name&nbsp;</span>)}>
                         {getFieldDecorator('name', {

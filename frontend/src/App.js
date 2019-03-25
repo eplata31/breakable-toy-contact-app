@@ -12,7 +12,7 @@ class App extends Component {
           Contacts
         </header>
         <Contact />
-        <hr></hr>
+        <br></br>
       </div>
     );
   }

@@ -86,7 +86,7 @@ class Contactform extends React.Component {
         
         return (
             <div id="divForm">
-            <hr></hr>
+            <br></br>
             <h1>Add Contact</h1>
                 <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                     <Form.Item label={(<span>Name&nbsp;</span>)}>
