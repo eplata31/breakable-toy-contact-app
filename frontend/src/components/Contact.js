@@ -1,28 +1,28 @@
 import React, { Component } from 'react'
 import { Table, Divider, Button } from 'antd';
-import 'antd/lib/table/style/css'
-import 'antd/lib/divider/style/css'
-import 'antd/lib/button/style/css'
+import 'antd/dist/antd.css'
 import Contactform from './Contactform'
 import EditForm from './EditForm';
+import { notification } from 'antd'
 
 class Contact extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      showEditForm:false,
-      showContactForm:false,
+      showEditForm: false,
+      showContactForm: false,
+      showAlert: false,
       page: 1,
       pages: null,
       totalDocs: null,
       selectedContact: {},
       contacts: [],
       columns: [
-        {title: 'Name', key: 'name', dataIndex: 'name'},
-        {title: 'Last name', key: 'lastname', dataIndex: 'lastname'},
-        {title: 'Email', key: 'email', dataIndex: 'email'},
-        {title: 'Phone', key: 'phone', dataIndex: 'phone'},
-        {title: 'Company', key: 'company', dataIndex: 'company'},
+        { title: 'Name', key: 'name', dataIndex: 'name' },
+        { title: 'Last name', key: 'lastname', dataIndex: 'lastname' },
+        { title: 'Email', key: 'email', dataIndex: 'email' },
+        { title: 'Phone', key: 'phone', dataIndex: 'phone' },
+        { title: 'Company', key: 'company', dataIndex: 'company' },
         {
           title: '', key: 'edit',
           render: (text, record) => (
@@ -52,45 +52,69 @@ class Contact extends Component {
           page: data.page,
           totalDocs: data.totalDocs,
           showContactForm: false,
-          showEditForm:false })
+          showEditForm: false
+        })
+      }).catch(error => {
+        notification.error({
+          message: error.message,
+          description: error.description
+        })
       })
   }
 
-  onContactCheck(contact){
-    this.setState({selectedContact: contact, showEditForm:true, showContactForm: false})
+  onContactCheck(contact) {
+    this.setState({ selectedContact: contact, showEditForm: true, showContactForm: false })
   }
 
   onPagerChange(page) {
     this.fetchContacts(page)
   }
 
-  showForm(){
-    this.setState({showContactForm: !this.state.showContactForm, showEditForm: false})
+  showForm() {
+    this.setState({ showContactForm: !this.state.showContactForm, showEditForm: false })
   }
 
-  onContactDelete(contact){
-    fetch(`http://localhost:8080/contact/${contact._id}`,{
-        method: 'DELETE',
-        headers: {
-          'content-type': 'application/json'
-        },
-        body: JSON.stringify(contact._id)
-      }).then(res => res.json())
-            .then(data => {
-                console.log(data)
-                this.fetchContacts(this.page)
-                this.setState({showEditForm:false})
-            })
+  onContactDelete(contact) {
+    fetch(`http://localhost:8080/contact/${contact._id}`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(contact._id)
+    }).then(res => {
+      if(res.status === 400){
+        notification.error({
+            message: 'Error',
+            description: res.statusText
+          })
+    } else if(res.status === 200){
+        notification.success({
+            message: 'Contact deleted',
+            description: res.statusText
+          })
     }
+    })
+      .then(data => {
+        console.log(data)
+        this.fetchContacts(this.page)
+        this.setState({ showEditForm: false })
+      })
+  }
+
+  onClose = (e) => { };
 
   render() {
-    const contactsItems = this.state.contacts.map((contact,index) => { return Object.assign({}, contact, {key: index})})
+    const contactsItems = this.state.contacts.map((contact, index) => { return Object.assign({}, contact, { key: index }) })
     return (
       <div>
-      <Table columns={this.state.columns} dataSource={contactsItems} pagination={{current: this.state.page, total: this.state.totalDocs, onChange: this.onPagerChange.bind(this)}} />
-      <Button type="primary" onClick={this.showForm.bind(this)}>Add contact</Button>
-      {this.state.showEditForm && <EditForm contact={this.state.selectedContact} reRender={this.fetchContacts.bind(this)}/>}
-      {this.state.showContactForm && <Contactform reRender={this.fetchContacts.bind(this)}/>}
+        <Table columns={this.state.columns} dataSource={contactsItems} pagination={{
+          current: this.state.page,
+          total: this.state.totalDocs, onChange: this.onPagerChange.bind(this)
+        }} />
+        <Button type="primary" onClick={this.showForm.bind(this)}>Add contact</Button>
+        {this.state.showContactForm && <Button ghost type="danger" onClick={this.showForm.bind(this)}>Cancel</Button>}
+        {this.state.showEditForm && <EditForm contact={this.state.selectedContact} reRender={this.fetchContacts.bind(this)} />}
+        {this.state.showContactForm && <Contactform reRender={this.fetchContacts.bind(this)} />}
       </div>
     )
   }
