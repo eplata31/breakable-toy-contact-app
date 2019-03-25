@@ -11,6 +11,11 @@ then go to each folder (backend and frontend) and run npm install to install all
 npm install
 ```
 
+Run this line if there is a problem with the file watch
+```bash
+sudo sysctl fs.inotify.max_user_watches=582222 && sudo sysctl -p
+```
+
 ## Usage
 
 Run the backend
