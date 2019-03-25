@@ -8,7 +8,9 @@ class Contactform extends Component {
             lastname: '',
             email: '',
             phone:'',
-            company:''
+            company:'',
+            confirmDirty: false,
+            autoCompleteResult: [],
         }
 
         this.onChange = this.onChange.bind(this)
@@ -28,6 +30,9 @@ class Contactform extends Component {
             company: this.state.company,
             phone: this.state.phone,
             email: this.state.email
+        }
+        if (postData.company === '') {
+            postData.company = null
         }
 
         fetch(`http://localhost:8080/contact`, {

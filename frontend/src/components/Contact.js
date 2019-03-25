@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Table } from 'antd';
+import { Table, Divider, Button } from 'antd';
 import 'antd/lib/table/style/css'
+import 'antd/lib/divider/style/css'
+import 'antd/lib/button/style/css'
 import Contactform from './Contactform'
 import EditForm from './EditForm';
 
@@ -23,11 +25,13 @@ class Contact extends Component {
         {title: 'Company', key: 'company', dataIndex: 'company'},
         {
           title: '', key: 'edit',
-          render: (text, record) => (<a onClick={this.onContactCheck.bind(this, record)}>Edit</a>),
-        },
-        {
-          title: '', key: 'delete',
-          render: (text, record) => (<a onClick={this.onContactDelete.bind(this, record)}>Delete</a>),
+          render: (text, record) => (
+            <span>
+              <Button onClick={this.onContactCheck.bind(this, record)}>Edit</Button>
+              <Divider type="vertical" />
+              <Button type="danger" onClick={this.onContactDelete.bind(this, record)}>Delete</Button>
+            </span>
+          ),
         }
       ]
     }
@@ -53,7 +57,7 @@ class Contact extends Component {
   }
 
   onContactCheck(contact){
-    this.setState({selectedContact: contact, showEditForm:true, showAdd: false})
+    this.setState({selectedContact: contact, showEditForm:true, showContactForm: false})
   }
 
   onPagerChange(page) {
@@ -84,7 +88,7 @@ class Contact extends Component {
     return (
       <div>
       <Table columns={this.state.columns} dataSource={contactsItems} pagination={{current: this.state.page, total: this.state.totalDocs, onChange: this.onPagerChange.bind(this)}} />
-      <button onClick={this.showForm.bind(this)}>Add contact</button>
+      <Button type="primary" onClick={this.showForm.bind(this)}>Add contact</Button>
       {this.state.showEditForm && <EditForm contact={this.state.selectedContact} reRender={this.fetchContacts.bind(this)}/>}
       {this.state.showContactForm && <Contactform reRender={this.fetchContacts.bind(this)}/>}
       </div>

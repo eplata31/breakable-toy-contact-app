@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Form from './Form'
 
 class EditForm extends Component {
     constructor(props) {
@@ -55,6 +54,9 @@ class EditForm extends Component {
             phone: this.state.phone,
             email: this.state.email
         }
+        if (putData.company === '') {
+            putData.company = null
+        }
 
         fetch(`http://localhost:8080/contact/${this.state.id}`, {
             method: 'PUT',
@@ -71,8 +73,6 @@ class EditForm extends Component {
     }
 
   render() {
-      const {name, lastname, company, email, phone} = this.state
-      const con = {name, lastname, company, email, phone}
     return (
     <div>
         <hr></hr>
@@ -102,7 +102,6 @@ class EditForm extends Component {
                         <button type="submmit">Save</button>
                     </div>
                 </form>
-                <Form onSubmit={this.onSubmmit} onChange={this.onChange.bind(this)} {...con} />
       </div>
     )
   }
