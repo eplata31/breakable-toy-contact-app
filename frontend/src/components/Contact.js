@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Divider, Button } from 'antd';
+import { Table, Divider, Button, Tooltip } from 'antd';
 import 'antd/dist/antd.css'
 import Contactform from './Contactform'
 import EditForm from './EditForm';
@@ -27,9 +27,11 @@ class Contact extends Component {
           title: '', key: 'edit',
           render: (text, record) => (
             <span>
-              <Button onClick={this.onContactCheck.bind(this, record)}>Edit</Button>
+              <Tooltip title={'Edit'}>
+                <Button icon="edit" onClick={this.onContactCheck.bind(this, record)}></Button>
+              </Tooltip>
               <Divider type="vertical" />
-              <Button type="danger" onClick={this.onContactDelete.bind(this, record)}>Delete</Button>
+              <Button type="danger" icon="delete" onClick={this.onContactDelete.bind(this, record)}></Button>
             </span>
           ),
         }
