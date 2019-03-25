@@ -4,7 +4,8 @@ This is a brakable toy experiment that involves a contact app made with Node.js,
 
 ## Installation
 
-Run npm install to install all dependecies
+This project works with the last stable version of nodejs (10.15.3), be sure to have that first,
+then go to each folder (backend and frontend) and run npm install to install all dependecies
 
 ```bash
 npm install
